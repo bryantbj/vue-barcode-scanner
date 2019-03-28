@@ -194,10 +194,6 @@ const VueBarcodeScanner = {
       }
 
       if (checkInputElapsedTime(Date.now())) {
-        if (!attributes.isProcessing) {
-          emitEvent("start", event)
-          attributes.isProcessing = true
-        }
         // check if field has 'data-barcode' attribute
         let barcodeIdentifier = false
         if (attributes.setting.requiredAttr) {
@@ -249,6 +245,11 @@ const VueBarcodeScanner = {
         }
         // fast enough (assume as scanner)
         else {
+          // a scan has begun
+          if (!attributes.isProcessing) {
+            emitEvent("start", event)
+            attributes.isProcessing = true
+          }
           // reset the register
           attributes.pressedTime = []
         }
